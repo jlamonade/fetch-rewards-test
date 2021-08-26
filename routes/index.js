@@ -14,7 +14,7 @@ const transactions = []
 
 router.post('/', async (req, res) => {
   await transactions.push(new Transaction(req.body.payer, req.body.points))
-  if (!req.body.payer in payerBalances) {
+  if (!(req.body.payer in payerBalances)) {
     payerBalances[req.body.payer] = req.body.points
   } else {
     payerBalances[req.body.payer] = payerBalances[req.body.payer] + req.body.points
