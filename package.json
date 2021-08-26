@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "watch": "nodemon server.js"
+  },
+  "name": "fetch-rewards-test",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlamonade/fetch-rewards-test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jlamonade/fetch-rewards-test/issues"
+  },
+  "homepage": "https://github.com/jlamonade/fetch-rewards-test#readme",
+  "description": ""
+}
