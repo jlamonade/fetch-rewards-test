@@ -5,6 +5,7 @@ class Transaction {
     this.payer = payer
     this.points = points
     this.timestamp = timestamp
+    this.pointsSpent = 0
   }
 }
 
@@ -25,11 +26,19 @@ router.post('/', async (req, res) => {
 })
 
 router.post('/spend', async (req, res) => {
+  let spendPoints = req.body.points // 4900
   // sort transactions when points are being spent, by date
   transactions.sort((a, b) => a.timestamp.localeCompare(b.timestamp))
   // spend points
-    // go through transactions starting at earliest date
+  // go through transactions starting at earliest date
+  for (const transaction of transactions) {
     // check payer balance
+    if (payerBalances) {
+      
+    }
+  }
+    
+    
     // if 0 then go to next payer
     // else spend all available points, do not let balance be negative
     // then go to next payer
