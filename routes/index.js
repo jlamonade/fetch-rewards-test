@@ -8,7 +8,8 @@ let totalAvailablePoints = 0
 const transactions = []
 
 router.post('/transaction', async (req, res) => {
-  transactions.push(new Transaction(req.body.payer, req.body.points, req.body.timestamp))
+  const transaction = new Transaction(req.body.payer, req.body.points, req.body.timestamp)
+  transactions.push(transaction)
   if (req.body.payer in payerBalances) {
     payerBalances[req.body.payer] = payerBalances[req.body.payer] + req.body.points
     totalAvailablePoints += req.body.points
@@ -16,7 +17,7 @@ router.post('/transaction', async (req, res) => {
     payerBalances[req.body.payer] = req.body.points
     totalAvailablePoints += req.body.points
   }
-  res.status(200).json(totalAvailablePoints)
+  res.status(200).json(transaction)
 })
 
 router.post('/spend', async (req, res) => {
@@ -65,7 +66,7 @@ router.post('/spend', async (req, res) => {
   }
 })
 
-router.get('/balances', (req, res) => {
+router.get('/balance', (req, res) => {
   res.status(200).json(payerBalances)
 })
 
