@@ -34,10 +34,10 @@ router.post('/spend', async (req, res) => {
       transaction.pointsSpent += pointsToSpend
       pointsToSpend -= transaction.pointsSpent
     } else if (availablePoints > 0 && transaction.points < 0) {
-      transaction.pointsSpent = transaction.points
+      transaction.pointsSpent += transaction.points
       pointsToSpend -= transaction.points
     }
-    payerBalances[transaction.payer] -= Math.abs(transaction.pointsSpent)
+    payerBalances[transaction.payer] -= transaction.pointsSpent
   }
   console.log(transactions)
   // if 0 then go to next payer
