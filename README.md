@@ -4,7 +4,7 @@ Coding test for Fetch Rewards Backend Engineer, Apprenticeship
 
 ## Install
 
-    clone repository to machine
+    clone repo
 
 ## Run the app
 
@@ -12,7 +12,7 @@ Coding test for Fetch Rewards Backend Engineer, Apprenticeship
 
 # REST API
 
-## Get balances by payer
+## Get balances
 
 ### Request
 
@@ -78,7 +78,7 @@ Coding test for Fetch Rewards Backend Engineer, Apprenticeship
     [{"payer":"DANNON","points":-100},{"payer":"UNILEVER","points":-200},{"payer":"MILLER COORS","points":-4700}]
 
 
-## Spend more than available points
+## Spend more than available balance
 
 ### Request
 
