@@ -22,6 +22,7 @@ router.post('/', async (req, res) => {
 router.post('/spend', async (req, res) => {
   // TODO implement check to see if there are enough points to spend
   let pointsToSpend = req.body.points
+  const pointsSpentByPayer = {}
 
   try {
     if (totalAvailablePoints >= pointsToSpend) {
@@ -35,12 +36,15 @@ router.post('/spend', async (req, res) => {
         const availablePoints = transaction.points - transaction.pointsSpent // points available on specific transaction
         // if there are available points for the transaction and points to spend > 0
         if (availablePoints > 0 && pointsToSpend > 0) {
+          pointsSpentByPayer[transaction.payer] = 0
           if (pointsToSpend >= availablePoints) {
             transaction.pointsSpent += availablePoints
             pointsToSpend -= availablePoints
             payerBalances[transaction.payer] -= availablePoints
+            pointsSpentByPayer[transaction.payer] -= availablePoints
           } else if (pointsToSpend < availablePoints) {
             payerBalances[transaction.payer] -= pointsToSpend
+            pointsSpentByPayer[transaction.payer] -= pointsToSpend
             transaction.pointsSpent += pointsToSpend
             pointsToSpend -= transaction.pointsSpent
           }
@@ -48,9 +52,10 @@ router.post('/spend', async (req, res) => {
           transaction.pointsSpent += transaction.points
           pointsToSpend -= transaction.points
           payerBalances[transaction.payer] -= transaction.pointsSpent
+          pointsSpentByPayer[transaction.payer] -= transaction.points
         }
       }
-      res.status(200).json(payerBalances)
+      res.status(200).json(pointsSpentByPayer)
     } else {
       throw Error
     }
