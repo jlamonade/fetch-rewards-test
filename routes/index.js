@@ -7,7 +7,7 @@ let totalAvailablePoints = 0
 
 const transactions = []
 
-router.post('/', async (req, res) => {
+router.post('/transaction', async (req, res) => {
   transactions.push(new Transaction(req.body.payer, req.body.points, req.body.timestamp))
   if (req.body.payer in payerBalances) {
     payerBalances[req.body.payer] = payerBalances[req.body.payer] + req.body.points
@@ -46,16 +46,17 @@ router.post('/spend', async (req, res) => {
             payerBalances[transaction.payer] -= pointsToSpend
             pointsSpentByPayer[transaction.payer] -= pointsToSpend
             transaction.pointsSpent += pointsToSpend
-            pointsToSpend -= transaction.pointsSpent
+            pointsToSpend -= pointsToSpend
           }
         } else if (availablePoints < 0) { // if negative transaction value
           transaction.pointsSpent += transaction.points
           pointsToSpend -= transaction.points
           payerBalances[transaction.payer] -= transaction.pointsSpent
-          pointsSpentByPayer[transaction.payer] -= transaction.points
+          pointsSpentByPayer[transaction.payer] -= availablePoints
         }
       }
-      res.status(200).json(pointsSpentByPayer)
+      const pointsSpentByPayerArray = Object.entries(pointsSpentByPayer).map(([key, val]) => ({ payer: key, points: val }))
+      res.status(200).json(pointsSpentByPayerArray)
     } else {
       throw Error
     }
@@ -64,7 +65,7 @@ router.post('/spend', async (req, res) => {
   }
 })
 
-router.get('/', (req, res) => {
+router.get('/balances', (req, res) => {
   res.status(200).json(payerBalances)
 })
 
