@@ -7,20 +7,19 @@ const transactions = []
 
 router.post('/', async (req, res) => {
   await transactions.push(new Transaction(req.body.payer, req.body.points, req.body.timestamp))
-  if (!(req.body.payer in payerBalances)) {
-    payerBalances[req.body.payer] = req.body.points
-  } else {
+  if (req.body.payer in payerBalances) {
     payerBalances[req.body.payer] = payerBalances[req.body.payer] + req.body.points
+  } else {
+    payerBalances[req.body.payer] = req.body.points
   }
   res.status(200).json(transactions)
 })
 
 router.post('/spend', async (req, res) => {
+  // TODO implement check to see if there are enough points to spend
   let pointsToSpend = req.body.points // 4700
   // sort transactions when points are being spent, by date
   transactions.sort((a, b) => a.timestamp.localeCompare(b.timestamp))
-  console.log(transactions)
-  console.log(payerBalances)
   // spend points
   // go through transactions starting at earliest date
   for (const transaction of transactions) {
