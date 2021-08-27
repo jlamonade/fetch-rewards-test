@@ -26,15 +26,14 @@ router.post('/spend', async (req, res) => {
     // check payer balance
     const availablePoints = Math.abs(transaction.points - transaction.pointsSpent) // 500
     // console.log(availablePoints, transaction.points)
-    if (availablePoints > 0 && pointsToSpend >= availablePoints) {
-      transaction.pointsSpent += transaction.points
-      pointsToSpend -= transaction.pointsSpent
-    } else if (availablePoints > 0 && pointsToSpend < availablePoints) {
-      transaction.pointsSpent += pointsToSpend
-      pointsToSpend -= transaction.pointsSpent
-    } else if (availablePoints > 0 && transaction.points < 0) {
-      transaction.pointsSpent += transaction.points
-      pointsToSpend -= transaction.points
+    if (availablePoints > 0) {
+      if (pointsToSpend >= availablePoints || transaction.points < 0) {
+        transaction.pointsSpent += transaction.points
+        pointsToSpend -= transaction.pointsSpent
+      } else if (pointsToSpend < availablePoints) {
+        transaction.pointsSpent += pointsToSpend
+        pointsToSpend -= transaction.pointsSpent
+      }
     }
     payerBalances[transaction.payer] -= transaction.pointsSpent
   }
