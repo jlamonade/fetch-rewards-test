@@ -28,9 +28,6 @@ router.post('/spend', async (req, res) => {
   try {
     if (totalAvailablePoints >= pointsToSpend) {
       // sort transactions when points are being spent, by date
-      // not sure if this is the best strategy
-      // consider using a db to handle on the fly sorting instead of sorting data on each req
-      // was using memory to store data and did not think sorting on the fly was the most optimal solution
       transactions.sort((a, b) => a.timestamp.localeCompare(b.timestamp))
       // spend points
       totalAvailablePoints -= pointsToSpend
