@@ -5,6 +5,7 @@ Coding test for Fetch Rewards Backend Engineer, Apprenticeship
 ## Install
 
     clone repo
+    npm i
 
 ## Run the app
 
