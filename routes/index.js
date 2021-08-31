@@ -22,19 +22,22 @@ router.post('/transaction', async (req, res) => {
 
 // spend points
 router.post('/spend', async (req, res) => {
-  // TODO implement check to see if there are enough points to spend
   let pointsToSpend = req.body.points
   const pointsSpentByPayer = {}
 
   try {
     if (totalAvailablePoints >= pointsToSpend) {
       // sort transactions when points are being spent, by date
+      // not sure if this is the best strategy
+      // consider using a db to handle on the fly sorting instead of sorting data on each req
+      // was using memory to store data and did not think sorting on the fly was the most optimal solution
       transactions.sort((a, b) => a.timestamp.localeCompare(b.timestamp))
       // spend points
       totalAvailablePoints -= pointsToSpend
       // go through transactions starting at earliest date
       for (const transaction of transactions) {
         // check payer balance by transaction
+        // consider using a boolean tag to mark if transactions have been spent
         const availablePoints = transaction.points - transaction.pointsSpent // points available on specific transaction
         if (availablePoints > 0 && pointsToSpend > 0) {
           // if there are available points for the transaction and points to spend > 0
