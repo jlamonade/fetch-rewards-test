@@ -38,6 +38,7 @@ router.post('/spend', async (req, res) => {
         const availablePoints = transaction.points - transaction.pointsSpent // points available on specific transaction
         if (availablePoints > 0 && pointsToSpend > 0) {
           // if there are available points for the transaction and points to spend > 0
+          // then use the transaction
           pointsSpentByPayer[transaction.payer] = 0
           if (pointsToSpend >= availablePoints) {
             // if points to spend is greater than available points for this transaction
